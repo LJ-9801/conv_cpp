@@ -6,7 +6,7 @@ void generator::generate(int upper, int lower){
     // Generate the grid
     srand(time(0));
 
-    for (int i = 0; i < channels_; i++){
+    for (int i = 0; i < in_channels_; i++){
         std::vector<std::vector<float> > channel;
         for (int j = 0; j < width_; j++){
             std::vector<float> row;
@@ -20,7 +20,7 @@ void generator::generate(int upper, int lower){
 }
 
 void generator::printGrid(){
-    for (int i = 0; i < channels_; i++){
+    for (int i = 0; i < in_channels_; i++){
         std::cout << "Channel " << i << std::endl;
         for (int j = 0; j < width_; j++){
             std::cout << "[";
