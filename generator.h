@@ -14,6 +14,8 @@ class generator {
         generator(const int Inchannels, const int OutChannels, 
                   const int width,const int height): in_channels_(Inchannels), out_channels_(OutChannels),
                                                      width_(width), height_(height) {};
+
+        void clearGrid(); // you can clear the grid
         
         void generateGrid(int upper, int lower); // you can generate a grid with a range of random values
         void generateWeight(int upper, int lower); // you can generate a weight with a range of random values
