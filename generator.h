@@ -9,13 +9,14 @@ class generator {
         // Grid Type
         typedef std::vector<std::vector<std::vector<float> > > GRID;
         typedef std::pair<int, int> KERNAL_SIZE;
-        typedef std::vector<std::vector<float> > WEIGHT;
+        typedef std::vector<std::vector<std::vector<std::vector<float> > > > WEIGHT;
 
         generator(const int Inchannels, const int OutChannels, 
                   const int width,const int height): in_channels_(Inchannels), out_channels_(OutChannels),
                                                      width_(width), height_(height) {};
         
-        void generate(int upper, int lower); // you can generate a grid with a range of random values
+        void generateGrid(int upper, int lower); // you can generate a grid with a range of random values
+        void generateWeight(int upper, int lower); // you can generate a weight with a range of random values
 
         // Getters
         const GRID getGrid() const {return grid_;}

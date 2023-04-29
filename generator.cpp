@@ -2,7 +2,31 @@
 #include <iostream>
 //#include <omp.h>
 
-void generator::generate(int upper, int lower){
+void generator::generateWeight(int upper, int lower){
+    // Generate the weight
+    srand(time(0));
+
+    int kh = kernal_size_.first;
+    int kw = kernal_size_.second;
+
+    for (int i = 0; i < out_channels_; i++){
+        std::vector<std::vector<std::vector<float> > > channel;
+        for (int j = 0; j < in_channels_; j++){
+            std::vector<std::vector<float> > row;
+            for (int k = 0; k < kh; k++){
+                std::vector<float> col;
+                for (int l = 0; l < kw; l++){
+                    col.push_back(randomFloat(upper, lower));
+                }
+                row.push_back(col);
+            }
+            channel.push_back(row);
+        }
+        weight_.push_back(channel);
+    }
+}
+
+void generator::generateGrid(int upper, int lower){
     // Generate the grid
     srand(time(0));
 
