@@ -31,6 +31,37 @@ void generator::generateWeight(int upper, int lower){
     }
 }
 
+void generator::printWeight(){
+    if (weight_.size() == 0){
+        std::cout << "Weight is empty\n";
+        return;
+    }
+
+    int front = 3;
+    int back = 3;
+
+    if(kernal_size_.first < 8 || kernal_size_.second < 8){
+        front = kernal_size_.first;
+        back = 0;
+    }
+
+    for (int i = 0; i < out_channels_; i++){
+        std::cout << "Out Channel " << i << std::endl;
+        for (int j = 0; j < in_channels_; j++){
+            std::cout << " In Channel " << j << "\n[";
+            for (int k = 0; k < front; k++){
+                std::cout << "[";
+                for (int l = 0; l < front; l++){
+                    std::cout << weight_[i][j][k][l] << " ";
+                }
+                std::cout << "]";
+            }
+            std::cout << "]\n";
+        }
+        std::cout << "\n";
+    }
+}
+
 void generator::generateGrid(int upper, int lower){
     // Generate the grid
     srand(time(0));

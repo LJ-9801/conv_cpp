@@ -42,6 +42,34 @@ void utils::slidingWindow(const int& height, const int& width, const int& stride
     }
 }
 
+generator::GRID utils::conv2d(){
+    // Convolution
+    int out_height = (grid_[0].size() - kh_) / stride_ + 1;
+    int out_width = (grid_[0][0].size() - kw_) / stride_ + 1;
+    int out_channels = out_channels_;
+    int in_channels = in_channels_;
+    int kernal_height = kh_;
+    int kernal_width = kw_;
+
+    generator::GRID output(std::vector<std::vector<std::vector<float> > >(out_channels, std::vector<std::vector<float> >(out_height, std::vector<float>(out_width, 0))));
+    for (int i = 0; i < out_channels; i++){
+        for (int j = 0; j < out_height; j++){
+            for (int k = 0; k < out_width; k++){
+                for (int l = 0; l < in_channels; l++){
+                    WINDOW window = kernel(kernal_height, kernal_width, std::make_pair(j, k), l);
+                    for (int m = 0; m < kernal_height; m++){
+                        for (int n = 0; n < kernal_width; n++){
+                            std::cout << "output[" << i << "][" << j << "][" << k << "] += window[" << m << "][" << n << "] * weight_[" << i << "][" << l << "][" << m << "][" << n << "]\n";
+                            output[i][j][k] += window[m][n] * weight_[i][l][m][n];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return output;
+}
 
 
 const void utils::printWindow(WINDOW window) const{
