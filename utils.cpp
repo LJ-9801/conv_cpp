@@ -1,16 +1,12 @@
 #include <iostream>
 #include "generator.h"
 #include "utils.h"
+#include <omp.h>
 
 utils::WINDOW utils::kernel(const int& height, const int& width, LOCATION loc, const int& channel){
     WINDOW window(height, std::vector<float>(width, 0));
     int x_start = loc.first;
     int y_start = loc.second;
-
-    if (x_start + height > grid_[channel].size() || y_start + width > grid_[channel][0].size()){
-        std::cout << "Error: window out of bounds\n";
-        return window;
-    }
 
     for (int i = 0; i < height; i++){
         for (int j = 0; j < width; j++){
@@ -52,22 +48,22 @@ generator::GRID utils::conv2d(){
     int kernal_width = kw_;
 
     generator::GRID output(std::vector<std::vector<std::vector<float> > >(out_channels, std::vector<std::vector<float> >(out_height, std::vector<float>(out_width, 0))));
+
+    #pragma omp parallel for collapse(6) num_threads(8)
     for (int i = 0; i < out_channels; i++){
         for (int j = 0; j < out_height; j++){
             for (int k = 0; k < out_width; k++){
                 for (int l = 0; l < in_channels; l++){
-                    WINDOW window = kernel(kernal_height, kernal_width, std::make_pair(j, k), l);
                     for (int m = 0; m < kernal_height; m++){
                         for (int n = 0; n < kernal_width; n++){
-                            std::cout << "output[" << i << "][" << j << "][" << k << "] += window[" << m << "][" << n << "] * weight_[" << i << "][" << l << "][" << m << "][" << n << "]\n";
-                            output[i][j][k] += window[m][n] * weight_[i][l][m][n];
+                            output[i][j][k] += grid_[l][j + m][k + n] * weight_[i][l][m][n];
                         }
                     }
                 }
             }
         }
     }
-
+    #pragma omp barrier
     return output;
 }
 

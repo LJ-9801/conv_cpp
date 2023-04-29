@@ -18,6 +18,7 @@ class generator {
         void clearGrid(); // you can clear the grid
         
         // Setters
+        void setGrid(const GRID& grid){grid_ = grid;} // you can set the grid
         void setKernelSize(const int& height, const int& width){kernal_size_ = std::make_pair(height, width);} // you can set the kernal size
         void generateGrid(int upper, int lower); // you can generate a grid with a range of random values
         void generateWeight(int upper, int lower); // you can generate a weight with a range of random values
@@ -26,7 +27,7 @@ class generator {
         const GRID getGrid() const {return grid_;}
         const WEIGHT getWeight() const {return weight_;}
         const int numInChannels() const {return in_channels_;}
-        const int numOutChannels() const {return in_channels_;}
+        const int numOutChannels() const {return out_channels_;}
         const int kernalHeight() const {return kernal_size_.first;}
         const int kernalWidth() const {return kernal_size_.second;}
         const int height() const {return height_;}
