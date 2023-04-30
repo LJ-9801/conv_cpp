@@ -56,7 +56,7 @@ generator::GRID utils::conv2d(){
                 for (int l = 0; l < in_channels; l++){
                     for (int m = 0; m < kernal_height; m++){
                         for (int n = 0; n < kernal_width; n++){
-                            output[i][j][k] += grid_[l][j + m][k + n] * weight_[i][l][m][n];
+                            output[i][j][k] += grid_[l][j * stride_ + m][k * stride_ + n] * weight_[i][l][m][n];
                         }
                     }
                 }
